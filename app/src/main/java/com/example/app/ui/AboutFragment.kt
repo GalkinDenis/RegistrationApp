@@ -25,6 +25,14 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        arguments?.let { data ->
+            with(data) {
+                if (!isEmpty) {
+                    _binding?.emailValue?.text = getString("email").toString()
+                }
+            }
+        }
+
         binding.popButton.setOnClickListener {
             findNavController().popBackStack()
         }

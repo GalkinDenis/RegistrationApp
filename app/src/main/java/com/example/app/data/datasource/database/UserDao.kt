@@ -12,6 +12,6 @@ interface UsersDao {
     suspend fun insert(item: UsersEntity)
 
     @Query("SELECT email, password FROM users WHERE email = :userEmail")
-    fun getUser(userEmail: String): UsersEntity
+    fun getUser(userEmail: String): UsersEntity?
 
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.app.domain.LogInRequest
 import com.example.app.domain.usecases.GetUserUseCase
+import com.example.app.presentation.SingleLiveEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -13,13 +14,12 @@ class LogInViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
 ) : ViewModel() {
 
-    private val _loginRequest: MutableStateFlow<LogInRequest> = MutableStateFlow(LogInRequest.Pending)
-    fun loginRequest(): StateFlow<LogInRequest> = _loginRequest
+    private val _loginRequest = SingleLiveEvent<LogInRequest>()
+    fun loginRequest(): SingleLiveEvent<LogInRequest> = _loginRequest
 
     fun checkUser(emailUser: String, password: String) {
         viewModelScope.launch {
-            _loginRequest.value = getUserUseCase(emailUser, password)
+            getUserUseCase(emailUser, password).let { _loginRequest.value = it }
         }
     }
-
 }

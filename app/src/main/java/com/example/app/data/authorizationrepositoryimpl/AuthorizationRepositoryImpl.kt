@@ -8,8 +8,8 @@ class AuthorizationRepositoryImpl @Inject constructor(
     private val usersDataSource: UsersDataSource,
 ) : AuthorizationRepository {
 
-    override suspend fun saveUser(users: String, password: String) =
-        usersDataSource.saveUser(users, password)
+    override suspend fun saveUser(userEmail: String, password: String) =
+        usersDataSource.saveUser(userEmail, password)
 
 
     override suspend fun getUser(userEmail: String, password: String) =

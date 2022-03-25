@@ -5,14 +5,20 @@
     <string name="about">Описание</string>
     <string name="incorrect_password">Неверный пароль</string>
     <string name="user_not_found">Пользователь не найден</string>
-    <string name="email">Email:</string>
-    <string name="pop_button">Назад</string>
+    <string name="email">Почта:</string>
+    <string name="pop_button">Выйти</string>
     <string name="hint_login">Вход</string>
     <string name="hint_password">Пароль</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="repeat_new_password">Повторить новый пароль</string>
+    <string name="old_password">Старый пароль</string>
     <string name="registry">Регистрация</string>
     <string name="to_registry">Зарегистрироваться</string>
+    <string name="drop_password">Сбросить пароль</string>
     <string name="hint_second_password">Повторить пароль</string>
     <string name="hint_email">Почта</string>
     <string name="password_do_not_match">Пароли не совпадают</string>
-    <string name="fields_are_not_filled">Поля не заполненны</string>
+    <string name="fields_are_not_filled">Не все поля заполненны</string>
+    <string name="registration_success">Пользователь зарегистрирован</string>
+    <string name="user_already_exist">Пользователь уже существует</string>
 </resources>

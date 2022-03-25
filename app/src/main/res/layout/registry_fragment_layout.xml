@@ -82,6 +82,7 @@
         android:id="@+id/registry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:text="@string/to_registry"
         app:layout_constraintTop_toBottomOf="@+id/second_password_label"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -23,12 +23,6 @@
         android:id="@+id/change_password_page"
         android:name="com.example.app.ui.ChangePasswordFragment"
         android:label="@string/change_password">
-        <argument
-            android:name="email"
-            app:argType="string" />
-        <argument
-            android:name="password"
-            app:argType="string" />
     </fragment>
 
     <fragment
@@ -38,21 +32,12 @@
         <argument
             android:name="email"
             app:argType="string" />
-        <argument
-            android:name="password"
-            app:argType="string" />
     </fragment>
 
     <fragment
         android:id="@+id/registry_page"
         android:name="com.example.app.ui.RegistryFragment"
         android:label="@string/registry">
-        <argument
-            android:name="email"
-            app:argType="string" />
-        <argument
-            android:name="password"
-            app:argType="string" />
     </fragment>
 
 </navigation>

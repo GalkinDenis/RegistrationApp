@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.method.DigitsKeyListener
 import android.view.LayoutInflater
 import android.view.View
-import kotlinx.coroutines.flow.collect
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -43,8 +42,15 @@ class LogInFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.email.setText("")
+        binding.password.setText("")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         initListeners()
         initObservers()
     }
@@ -54,25 +60,19 @@ class LogInFragment : Fragment() {
 
             password.keyListener = DigitsKeyListener.getInstance(VALID_CHARACTERS)
             changePassword.setOnClickListener {
-                findNavController().navigate(
-                    LogInFragmentDirections.actionLogInFragmentToChangePasswordFragment(
-                        "",
-                        ""
-                    )
-                )
+                findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToChangePasswordFragment())
             }
 
             enter.setOnClickListener {
-                viewModel.checkUser(email.text.toString(), password.text.toString())
+                if(email.text.toString().isEmpty() || password.text.toString().isEmpty()) {
+                    showToast(getString(R.string.fields_are_not_filled))
+                } else {
+                    viewModel.checkUser(email.text.toString(), password.text.toString())
+                }
             }
 
             registry.setOnClickListener {
-                findNavController().navigate(
-                    LogInFragmentDirections.actionLogInFragmentToRegistryFragment(
-                        "",
-                        ""
-                    )
-                )
+                findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToRegistryFragment())
             }
 
         }
@@ -80,19 +80,18 @@ class LogInFragment : Fragment() {
 
     private fun initObservers() {
         lifecycleScope.launchWhenStarted {
-            viewModel.loginRequest().collect { loginResponse ->
+            viewModel.loginRequest().observe(viewLifecycleOwner) { loginResponse ->
                 when (loginResponse) {
-                    is LogInRequest.Pending -> return@collect
+                    is LogInRequest.Pending -> return@observe
                     is LogInRequest.UserFound -> {
                         findNavController().navigate(
                             LogInFragmentDirections.actionLogInFragmentToAboutFragment(
-                                loginResponse.email,
-                                loginResponse.password
+                                loginResponse.email
                             )
                         )
                     }
-                    is LogInRequest.IncorrectPassword -> showToast(R.string.incorrect_password.toString())
-                    is LogInRequest.UserNotFound -> showToast(R.string.user_not_found.toString())
+                    is LogInRequest.IncorrectPassword -> showToast(getString(R.string.incorrect_password))
+                    is LogInRequest.UserNotFound -> showToast(getString(R.string.user_not_found))
                 }
             }
         }

@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.app.R
 import com.example.app.databinding.RegistryFragmentLayoutBinding
 import com.example.app.di.App
+import com.example.app.domain.RegistryRequest
 import com.example.app.presentation.viewmodels.RegistryViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -58,32 +58,23 @@ class RegistryFragment : Fragment() {
                 val password = password.text.toString()
                 val secondPassword = secondPassword.text.toString()
                 when {
-                    (email.isEmpty() || password.isEmpty() || secondPassword.isEmpty()) -> showToast(
-                        R.string.fields_are_not_filled.toString()
-                    )
-                    password != secondPassword -> showToast(R.string.password_do_not_match.toString())
+                    (email.isEmpty() || password.isEmpty() || secondPassword.isEmpty()) -> {
+                        showToast(getString(R.string.fields_are_not_filled))
+                    }
+                    password != secondPassword -> showToast(getString(R.string.password_do_not_match))
                     else -> viewModel.registryUser(email, password)
                 }
             }
-
         }
     }
 
     private fun initObservers() {
         lifecycleScope.launchWhenStarted {
-            viewModel.registryRequest().collect { loginResponse ->
+            viewModel.registryRequest().observe(viewLifecycleOwner) { loginResponse ->
                 when (loginResponse) {
-                    is Response.Pending -> return@collect
-                    is Response.UserFound -> {
-                        findNavController().navigate(
-                            LogInFragmentDirections.actionLogInFragmentToAboutFragment(
-                                loginResponse.email,
-                                loginResponse.password
-                            )
-                        )
-                    }
-                    is Response.IncorrectPassword -> showToast(R.string.incorrect_password.toString())
-                    is Response.UserNotFound -> showToast(R.string.user_not_found.toString())
+                    is RegistryRequest.Pending -> return@observe
+                    is RegistryRequest.UserSaved -> showToast(getString(R.string.registration_success))
+                    is RegistryRequest.AlreadyExist -> showToast(getString(R.string.user_already_exist))
                 }
             }
         }

@@ -7,8 +7,8 @@ class UsersDataSourceImpl @Inject constructor(
     private val localDataSource: LocalDataSource
 ) : UsersDataSource {
 
-    override suspend fun saveUser(users: String, password: String) =
-        localDataSource.saveUsers(users, password)
+    override suspend fun saveUser(userEmail: String, password: String) =
+        localDataSource.saveUsers(userEmail, password)
 
 
     override suspend fun getUser(userEmail: String, password: String) =

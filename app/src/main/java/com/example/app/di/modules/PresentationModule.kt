@@ -17,20 +17,17 @@ interface PresentationModule {
 
     @Binds
     @IntoMap
-    @Singleton
     @ViewModelKey(LogInViewModel::class)
-    fun provideUserViewModel(viewModel: LogInViewModel): ViewModel
+    fun provideLogInViewModel(viewModel: LogInViewModel): ViewModel
 
 
     @Binds
     @IntoMap
-    @Singleton
     @ViewModelKey(ChangePasswordViewModel::class)
-    fun provideUserCardViewModel(viewModel: ChangePasswordViewModel): ViewModel
+    fun provideChangePasswordViewModel(viewModel: ChangePasswordViewModel): ViewModel
 
     @Binds
     @IntoMap
-    @Singleton
     @ViewModelKey(RegistryViewModel::class)
     fun provideRegistryViewModel(viewModel: RegistryViewModel): ViewModel
 
