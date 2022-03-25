@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">App</string>
+    <string name="login">Вход</string>
+    <string name="change_password">Смена пароля</string>
+    <string name="about">Описание</string>
+    <string name="incorrect_password">Неверный пароль</string>
+    <string name="user_not_found">Пользователь не найден</string>
+    <string name="email">Email:</string>
+    <string name="pop_button">Назад</string>
+    <string name="hint_login">Вход</string>
+    <string name="hint_password">Пароль</string>
+    <string name="registry">Регистрация</string>
+    <string name="to_registry">Зарегистрироваться</string>
+    <string name="hint_second_password">Повторить пароль</string>
+    <string name="hint_email">Почта</string>
+    <string name="password_do_not_match">Пароли не совпадают</string>
+    <string name="fields_are_not_filled">Поля не заполненны</string>
+</resources>

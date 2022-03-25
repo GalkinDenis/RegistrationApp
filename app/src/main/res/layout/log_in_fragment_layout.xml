@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </TextView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/email_label"
+        style="@style/Widget.Inventory.TextInputLayout.OutlinedBox"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:hint="@string/hint_email"
+        android:textColorHint="?attr/colorSecondaryVariant"
+        app:boxStrokeColor="?attr/colorOnSecondary"
+        app:layout_constraintBottom_toTopOf="@+id/mark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:suffixTextColor="?attr/colorSecondaryVariant">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
+            android:textColor="?attr/colorOnSecondary"
+            android:textColorHighlight="?attr/colorSecondaryVariant"
+            app:suffixTextColor="?attr/colorSecondaryVariant" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/password_label"
+        style="@style/Widget.Inventory.TextInputLayout.OutlinedBox"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="@string/hint_password"
+        android:textColorHint="?attr/colorSecondaryVariant"
+        app:boxStrokeColor="?attr/colorOnSecondary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mark"
+        app:suffixTextColor="?attr/colorSecondaryVariant">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:textColor="?attr/colorOnSecondary"
+            android:textColorHighlight="?attr/colorSecondaryVariant"
+            app:suffixTextColor="?attr/colorSecondaryVariant" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/enter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_label" />
+
+    <TextView
+        android:id="@+id/change_password"
+        android:layout_width="130dp"
+        android:layout_height="21dp"
+        android:background="@drawable/button_shape"
+        android:text="@string/change_password"
+        android:textAlignment="center"
+        android:textColor="@color/purple_500"
+        app:layout_constraintBottom_toTopOf="@+id/enter"
+        app:layout_constraintEnd_toEndOf="@+id/password_label"
+        app:layout_constraintTop_toBottomOf="@+id/password_label" />
+
+    <TextView
+        android:id="@+id/registry"
+        android:layout_width="160dp"
+        android:layout_height="21dp"
+        android:background="@drawable/button_shape"
+        android:text="@string/registry"
+        android:textAlignment="center"
+        android:textColor="@color/purple_500"
+        app:layout_constraintBottom_toTopOf="@+id/enter"
+        app:layout_constraintStart_toStartOf="@+id/password_label"
+        app:layout_constraintTop_toBottomOf="@+id/password_label" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
