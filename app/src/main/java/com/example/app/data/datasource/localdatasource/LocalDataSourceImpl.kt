@@ -1,14 +1,19 @@
 package com.example.app.data.datasource.localdatasource
 
-import com.example.app.data.datasource.database.UsersDao
-import com.example.app.data.datasource.database.UsersEntity
+import com.example.app.data.datasource.localdatasource.database.UsersDao
+import com.example.app.data.datasource.localdatasource.database.UsersEntity
 import com.example.app.domain.entities.ChangePasswordRequest
 import com.example.app.domain.entities.LogInRequest
 import com.example.app.domain.entities.UserRegistrationRequest
+import dagger.hilt.components.SingletonComponent
+import it.czerwinski.android.hilt.annotations.BoundTo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
+@BoundTo(LocalDataSource::class, SingletonComponent::class)
 class LocalDataSourceImpl @Inject constructor(
     private var dao: UsersDao,
 ) : LocalDataSource {

@@ -1,6 +1,5 @@
 package com.example.app.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.LayoutInflater
@@ -8,26 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.app.R
 import com.example.app.databinding.ChangePasswordFragmentLayoutBinding
-import com.example.app.di.App
 import com.example.app.domain.entities.ChangePasswordRequest
 import com.example.app.presentation.viewmodels.ChangePasswordViewModel
 import com.google.android.material.snackbar.Snackbar
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChangePasswordFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by viewModels<ChangePasswordViewModel> { viewModelFactory }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (requireActivity().application as App).appComponent.injectChangePasswordFragment(this)
-    }
+    private val viewModel by viewModels<ChangePasswordViewModel>()
 
     private var _binding: ChangePasswordFragmentLayoutBinding? = null
     private val binding get() = _binding!!

@@ -1,4 +1,4 @@
-package com.example.app.data.datasource.database
+package com.example.app.data.datasource.localdatasource.database
 
 import androidx.room.Dao
 import androidx.room.Insert

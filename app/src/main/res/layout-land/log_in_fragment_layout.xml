@@ -64,7 +64,7 @@
     <Button
         android:id="@+id/registry"
         android:textSize="11sp"
-        android:layout_width="121dp"
+        android:layout_width="129dp"
         android:layout_height="35sp"
         android:text="@string/registry"
         android:textStyle="bold"

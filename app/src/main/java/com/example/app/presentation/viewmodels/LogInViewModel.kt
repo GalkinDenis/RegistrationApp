@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.app.domain.entities.LogInRequest
 import com.example.app.domain.usecases.GetUserUseCase
 import com.example.app.presentation.SingleLiveEvent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class LogInViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
 ) : ViewModel() {

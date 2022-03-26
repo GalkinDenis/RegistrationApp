@@ -1,6 +1,5 @@
 package com.example.app.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.LayoutInflater
@@ -8,27 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.app.R
 import com.example.app.databinding.LogInFragmentLayoutBinding
-import com.example.app.di.App
 import com.example.app.domain.entities.LogInRequest
 import com.example.app.presentation.viewmodels.LogInViewModel
 import com.google.android.material.snackbar.Snackbar
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LogInFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by viewModels<LogInViewModel> { viewModelFactory }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (requireActivity().application as App).appComponent.injectLogInFragment(this)
-    }
+    private val viewModel by viewModels<LogInViewModel>()
 
     private var _binding: LogInFragmentLayoutBinding? = null
     private val binding get() = _binding!!
