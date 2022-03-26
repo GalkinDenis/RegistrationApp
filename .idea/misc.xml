@@ -4,10 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/drawable/button_shape.xml" value="0.1895" />
+        <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/layout-land/change_password_fragment_layout.xml" value="0.1" />
+        <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/layout-land/log_in_fragment_layout.xml" value="0.5" />
+        <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/layout-land/registry_fragment_layout.xml" value="0.1" />
         <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/layout/about_fragment_layout.xml" value="0.33" />
-        <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/layout/change_password_fragment_layout.xml" value="0.25" />
-        <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/layout/log_in_fragment_layout.xml" value="0.1" />
-        <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/layout/registry_fragment_layout.xml" value="0.1" />
+        <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/layout/change_password_fragment_layout.xml" value="0.33" />
+        <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/layout/log_in_fragment_layout.xml" value="0.33" />
+        <entry key="..\:/Users/Denis/Desktop/App/app/src/main/res/layout/registry_fragment_layout.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/button_shape.xml" value="0.371875" />
         <entry key="app/src/main/res/drawable/my_snackbar_background.xml" value="0.24074074074074073" />
         <entry key="app/src/main/res/layout/about_fragment_layout.xml" value="0.33" />

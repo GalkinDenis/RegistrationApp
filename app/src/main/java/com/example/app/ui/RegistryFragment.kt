@@ -2,7 +2,7 @@ package com.example.app.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.text.method.DigitsKeyListener
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import com.example.app.R
 import com.example.app.databinding.RegistryFragmentLayoutBinding
 import com.example.app.di.App
-import com.example.app.domain.RegistryRequest
-import com.example.app.presentation.viewmodels.RegistryViewModel
+import com.example.app.domain.entities.UserRegistrationRequest
+import com.example.app.presentation.viewmodels.RegistrationViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class RegistryFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val viewModel by viewModels<RegistryViewModel> { viewModelFactory }
+    private val viewModel by viewModels<RegistrationViewModel> { viewModelFactory }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -43,16 +43,28 @@ class RegistryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setInputFilters()
         initListeners()
         initObservers()
     }
 
+    private fun setInputFilters() {
+        val filter = InputFilter { src, start, end, _, _, _ ->
+            for (i in start until end) {
+                if (!Character.isLetter(src[i]) && !Character.isDigit(src[i])) {
+                    return@InputFilter src.subSequence(start, i)
+                }
+            }
+            null
+        }
+        with(binding) {
+            password.filters = arrayOf(filter)
+            secondPassword.filters = arrayOf(filter)
+        }
+    }
+
     private fun initListeners() {
         with(binding) {
-            password.keyListener = DigitsKeyListener.getInstance(VALID_CHARACTERS)
-            secondPassword.keyListener = DigitsKeyListener.getInstance(VALID_CHARACTERS)
-
             registryButton.setOnClickListener {
                 val email = email.text.toString()
                 val password = password.text.toString()
@@ -62,7 +74,14 @@ class RegistryFragment : Fragment() {
                         showToast(getString(R.string.fields_are_not_filled))
                     }
                     password != secondPassword -> showToast(getString(R.string.password_do_not_match))
-                    else -> viewModel.registryUser(email, password)
+                    else -> {
+                        progressBar.visibility = View.VISIBLE
+                        emailLabel.visibility = View.GONE
+                        registryButton.visibility = View.GONE
+                        secondPasswordLabel.visibility = View.GONE
+                        passwordLabel.visibility = View.GONE
+                        viewModel.registrationUser(email, password)
+                    }
                 }
             }
         }
@@ -70,11 +89,18 @@ class RegistryFragment : Fragment() {
 
     private fun initObservers() {
         lifecycleScope.launchWhenStarted {
-            viewModel.registryRequest().observe(viewLifecycleOwner) { loginResponse ->
+            viewModel.registrationRequest().observe(viewLifecycleOwner) { loginResponse ->
+                with(binding) {
+                    progressBar.visibility = View.GONE
+                    emailLabel.visibility = View.VISIBLE
+                    registryButton.visibility = View.VISIBLE
+                    secondPasswordLabel.visibility = View.VISIBLE
+                    passwordLabel.visibility = View.VISIBLE
+                }
                 when (loginResponse) {
-                    is RegistryRequest.Pending -> return@observe
-                    is RegistryRequest.UserSaved -> showToast(getString(R.string.registration_success))
-                    is RegistryRequest.AlreadyExist -> showToast(getString(R.string.user_already_exist))
+                    is UserRegistrationRequest.Pending -> return@observe
+                    is UserRegistrationRequest.UserSaved -> showToast(getString(R.string.registration_success))
+                    is UserRegistrationRequest.AlreadyExist -> showToast(getString(R.string.user_already_exist))
                 }
             }
         }

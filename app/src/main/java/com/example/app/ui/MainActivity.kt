@@ -8,8 +8,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.app.R
 import com.example.app.databinding.ActivityMainBinding
 
-const val VALID_CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController

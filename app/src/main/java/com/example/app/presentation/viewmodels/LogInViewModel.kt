@@ -2,11 +2,9 @@ package com.example.app.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.app.domain.LogInRequest
+import com.example.app.domain.entities.LogInRequest
 import com.example.app.domain.usecases.GetUserUseCase
 import com.example.app.presentation.SingleLiveEvent
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

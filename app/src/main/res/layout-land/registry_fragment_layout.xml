@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout">
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:indeterminate="true"
         android:visibility="gone"
-        android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_label"
@@ -26,17 +25,17 @@
         android:hint="@string/hint_email"
         android:textColorHint="?attr/colorSecondaryVariant"
         app:boxStrokeColor="?attr/colorOnSecondary"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/password_label"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toStartOf="@+id/second_password_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:singleLine="true"
             android:inputType="textEmailAddress"
+            android:singleLine="true"
             android:textColor="?attr/colorOnSecondary"
             android:textColorHighlight="?attr/colorSecondaryVariant"
             app:suffixTextColor="?attr/colorSecondaryVariant" />
@@ -51,11 +50,10 @@
         app:passwordToggleEnabled="true"
         android:textColorHint="?attr/colorSecondaryVariant"
         app:boxStrokeColor="?attr/colorOnSecondary"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/second_password_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_label"
-        app:layout_constraintBottom_toTopOf="@+id/second_password_label"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/email_label">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
@@ -63,8 +61,7 @@
             android:layout_height="match_parent"
             android:singleLine="true"
             android:textColor="?attr/colorOnSecondary"
-            android:textColorHighlight="?attr/colorSecondaryVariant"
-            />
+            android:textColorHighlight="?attr/colorSecondaryVariant" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -76,11 +73,10 @@
         app:passwordToggleEnabled="true"
         android:textColorHint="?attr/colorSecondaryVariant"
         app:boxStrokeColor="?attr/colorOnSecondary"
+        app:layout_constraintBottom_toTopOf="@+id/registry_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_label"
-        app:layout_constraintBottom_toBottomOf="@+id/registry_button"
-        >
+        app:layout_constraintStart_toEndOf="@+id/email_label"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/second_password"
@@ -88,19 +84,19 @@
             android:layout_height="match_parent"
             android:singleLine="true"
             android:textColor="?attr/colorOnSecondary"
-            android:textColorHighlight="?attr/colorSecondaryVariant"
-            />
+            android:textColorHighlight="?attr/colorSecondaryVariant" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/registry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
         android:text="@string/to_registry"
-        app:layout_constraintTop_toBottomOf="@+id/second_password_label"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/second_password_label"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="@+id/second_password_label"
+        app:layout_constraintTop_toBottomOf="@+id/second_password_label" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,10 @@
 package com.example.app.data.datasource.localdatasource
 
-import android.util.Log
 import com.example.app.data.datasource.database.UsersDao
 import com.example.app.data.datasource.database.UsersEntity
-import com.example.app.domain.LogInRequest
-import com.example.app.domain.RegistryRequest
+import com.example.app.domain.entities.ChangePasswordRequest
+import com.example.app.domain.entities.LogInRequest
+import com.example.app.domain.entities.UserRegistrationRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -13,12 +13,12 @@ class LocalDataSourceImpl @Inject constructor(
     private var dao: UsersDao,
 ) : LocalDataSource {
 
-    override suspend fun saveUsers(userEmail: String, password: String) =
+    override suspend fun registrationUser(userEmail: String, password: String) =
         withContext(Dispatchers.IO) {
+            Thread.sleep(2000)
             val user = dao.getUser(userEmail)
-            Log.d("TAGG", "${user?.email}  ${user?.password}")
             when (userEmail) {
-                user?.email -> RegistryRequest.AlreadyExist
+                user?.email -> UserRegistrationRequest.AlreadyExist
                 else -> {
                     dao.insert(
                         UsersEntity(
@@ -26,16 +26,15 @@ class LocalDataSourceImpl @Inject constructor(
                             password = password,
                         )
                     )
-                    RegistryRequest.UserSaved
+                    UserRegistrationRequest.UserSaved
                 }
             }
         }
 
     override suspend fun getUser(userEmail: String, password: String) =
         withContext(Dispatchers.IO) {
+            Thread.sleep(2000)
             val user = dao.getUser(userEmail)
-            Log.d("TAGG", "userEmail = ${userEmail}  password = ${user?.password}")
-            Log.d("TAGG", "dao = ${user?.email}  dao = ${user?.password}")
             when {
                 (userEmail == user?.email && password == user.password) -> LogInRequest.UserFound(user.email, user.password)
                 userEmail == user?.email -> LogInRequest.IncorrectPassword
@@ -44,5 +43,23 @@ class LocalDataSourceImpl @Inject constructor(
 
         }
 
+    override suspend fun changePassword(userEmail: String, oldPassword: String, newPassword: String) =
+        withContext(Dispatchers.IO) {
+            Thread.sleep(2000)
+            val user = dao.getUser(userEmail)
+            when {
+                userEmail != user?.email -> ChangePasswordRequest.UserNotFound
+                oldPassword != user.password -> ChangePasswordRequest.OldPasswordIsNotCorrect
+                else -> {
+                    dao.insert(
+                        UsersEntity(
+                            email = userEmail,
+                            password = newPassword,
+                        )
+                    )
+                    ChangePasswordRequest.PasswordChanged
+                }
+            }
+        }
 }
 

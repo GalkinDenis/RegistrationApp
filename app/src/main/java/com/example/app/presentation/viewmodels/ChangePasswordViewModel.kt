@@ -2,24 +2,22 @@ package com.example.app.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.app.domain.LogInRequest
-import com.example.app.domain.RegistryRequest
-import com.example.app.domain.usecases.GetUserUseCase
-import com.example.app.domain.usecases.SaveUserUseCase
+import com.example.app.domain.entities.ChangePasswordRequest
+import com.example.app.domain.usecases.ChangePasswordUseCase
 import com.example.app.presentation.SingleLiveEvent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ChangePasswordViewModel @Inject constructor(
-    private val saveUserUseCase: SaveUserUseCase,
+    private val changePasswordUseCase: ChangePasswordUseCase,
 ) : ViewModel() {
 
-    private val _registryRequest = SingleLiveEvent<RegistryRequest>()
-    fun registryRequest(): SingleLiveEvent<RegistryRequest> = _registryRequest
+    private val _changePasswordRequest = SingleLiveEvent<ChangePasswordRequest>()
+    fun changePasswordRequest(): SingleLiveEvent<ChangePasswordRequest> = _changePasswordRequest
 
-    fun registryUser(email: String, password: String) {
+    fun changePassword(email: String, password: String, newPassword: String) {
         viewModelScope.launch {
-            _registryRequest.value = saveUserUseCase.invoke(email, password)
+            _changePasswordRequest.value = changePasswordUseCase.invoke(email, password, newPassword)
         }
     }
 }

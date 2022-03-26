@@ -2,7 +2,7 @@ package com.example.app.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.text.method.DigitsKeyListener
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.app.R
 import com.example.app.databinding.LogInFragmentLayoutBinding
 import com.example.app.di.App
-import com.example.app.domain.LogInRequest
+import com.example.app.domain.entities.LogInRequest
 import com.example.app.presentation.viewmodels.LogInViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -42,31 +42,42 @@ class LogInFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.email.setText("")
-        binding.password.setText("")
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setInputFilters()
         initListeners()
         initObservers()
     }
 
-    private fun initListeners() {
-        with(binding) {
+    private fun setInputFilters() {
+        val filter = InputFilter { src, start, end, _, _, _ ->
+            for (i in start until end) {
+                if (!Character.isLetter(src[i]) && !Character.isDigit(src[i])) {
+                    return@InputFilter src.subSequence(start, i)
+                }
+            }
+            null
+        }
+        binding.password.filters = arrayOf(filter)
+    }
 
-            password.keyListener = DigitsKeyListener.getInstance(VALID_CHARACTERS)
+    private fun initListeners() {
+
+        with(binding) {
             changePassword.setOnClickListener {
                 findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToChangePasswordFragment())
             }
 
             enter.setOnClickListener {
-                if(email.text.toString().isEmpty() || password.text.toString().isEmpty()) {
+                if (email.text.toString().isEmpty() || password.text.toString().isEmpty()) {
                     showToast(getString(R.string.fields_are_not_filled))
                 } else {
+                    progressBar.visibility = View.VISIBLE
+                    enter.visibility = View.GONE
+                    emailLabel.visibility = View.GONE
+                    passwordLabel.visibility = View.GONE
+                    registry.visibility = View.GONE
+                    changePassword.visibility = View.GONE
                     viewModel.checkUser(email.text.toString(), password.text.toString())
                 }
             }
@@ -79,19 +90,31 @@ class LogInFragment : Fragment() {
     }
 
     private fun initObservers() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.loginRequest().observe(viewLifecycleOwner) { loginResponse ->
-                when (loginResponse) {
-                    is LogInRequest.Pending -> return@observe
-                    is LogInRequest.UserFound -> {
-                        findNavController().navigate(
-                            LogInFragmentDirections.actionLogInFragmentToAboutFragment(
-                                loginResponse.email
+        with(binding) {
+            lifecycleScope.launchWhenStarted {
+                viewModel.loginRequest().observe(viewLifecycleOwner) { loginResponse ->
+                    when (loginResponse) {
+                        is LogInRequest.Pending -> return@observe
+                        is LogInRequest.UserFound -> {
+                            findNavController().navigate(
+                                LogInFragmentDirections.actionLogInFragmentToAboutFragment(
+                                    loginResponse.email
+                                )
                             )
-                        )
+                            with(binding) {
+                                email.setText("")
+                                password.setText("")
+                            }
+                        }
+                        is LogInRequest.IncorrectPassword -> showToast(getString(R.string.incorrect_password))
+                        is LogInRequest.UserNotFound -> showToast(getString(R.string.user_not_found))
                     }
-                    is LogInRequest.IncorrectPassword -> showToast(getString(R.string.incorrect_password))
-                    is LogInRequest.UserNotFound -> showToast(getString(R.string.user_not_found))
+                    progressBar.visibility = View.GONE
+                    emailLabel.visibility = View.VISIBLE
+                    enter.visibility = View.VISIBLE
+                    passwordLabel.visibility = View.VISIBLE
+                    registry.visibility = View.VISIBLE
+                    changePassword.visibility = View.VISIBLE
                 }
             }
         }

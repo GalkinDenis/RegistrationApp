@@ -1,6 +1,6 @@
 package com.example.app.domain.usecases
 
-import com.example.app.domain.LogInRequest
+import com.example.app.domain.entities.LogInRequest
 import com.example.app.domain.repository.AuthorizationRepository
 import javax.inject.Inject
 

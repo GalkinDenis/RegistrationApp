@@ -6,7 +6,7 @@ import com.example.app.di.keys.ViewModelKey
 import com.example.app.presentation.ViewModelFactory
 import com.example.app.presentation.viewmodels.ChangePasswordViewModel
 import com.example.app.presentation.viewmodels.LogInViewModel
-import com.example.app.presentation.viewmodels.RegistryViewModel
+import com.example.app.presentation.viewmodels.RegistrationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -28,8 +28,8 @@ interface PresentationModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(RegistryViewModel::class)
-    fun provideRegistryViewModel(viewModel: RegistryViewModel): ViewModel
+    @ViewModelKey(RegistrationViewModel::class)
+    fun provideRegistrationViewModel(viewModel: RegistrationViewModel): ViewModel
 
 
     @Binds

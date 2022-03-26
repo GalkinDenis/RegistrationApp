@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/layout">
+    android:layout_height="match_parent">
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
@@ -17,16 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/mark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </TextView>
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email_label"
         style="@style/Widget.Inventory.TextInputLayout.OutlinedBox"
@@ -34,9 +24,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:hint="@string/hint_email"
-        app:layout_constraintBottom_toTopOf="@+id/mark"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/password_label"
+        app:layout_constraintEnd_toStartOf="@+id/registry"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
@@ -56,44 +47,19 @@
         android:layout_marginTop="20dp"
         android:hint="@string/hint_password"
         app:passwordToggleEnabled="true"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/registry"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mark">
+        app:layout_constraintTop_toBottomOf="@+id/email_label">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
-            android:textColor="?attr/colorOnSecondary"
-            android:textColorHighlight="?attr/colorSecondaryVariant"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="?attr/colorOnSecondary"
+            android:textColorHighlight="?attr/colorSecondaryVariant" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/enter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:text="@string/login"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_label" />
-
-    <Button
-        android:id="@+id/change_password"
-        android:textSize="11sp"
-        android:layout_width="129dp"
-        android:layout_height="35sp"
-        android:text="@string/change_password"
-        android:textStyle="bold"
-        android:textColor="@color/white"
-        android:backgroundTint="#8eacbb"
-        app:layout_constraintBottom_toTopOf="@+id/enter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/registry"
-        app:layout_constraintTop_toBottomOf="@+id/password_label" />
 
     <Button
         android:id="@+id/registry"
@@ -104,9 +70,36 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:backgroundTint="#8eacbb"
-        app:layout_constraintEnd_toStartOf="@+id/change_password"
-        app:layout_constraintBottom_toTopOf="@+id/enter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_label" />
+        app:layout_constraintBottom_toTopOf="@+id/change_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/email_label"
+        app:layout_constraintTop_toBottomOf="@+id/password_label"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/change_password"
+        android:textSize="11sp"
+        android:layout_width="129dp"
+        android:layout_height="35sp"
+        android:text="@string/change_password"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:backgroundTint="#8eacbb"
+        app:layout_constraintBottom_toTopOf="@+id/enter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/email_label"
+        app:layout_constraintTop_toTopOf="@+id/registry"/>
+
+    <Button
+        android:id="@+id/enter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/email_label"
+        app:layout_constraintTop_toBottomOf="@+id/change_password" />
 </androidx.constraintlayout.widget.ConstraintLayout>
