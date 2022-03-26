@@ -1,5 +1,5 @@
 Jetpack navigation  
-MVVM
+MVVM  
 Clean  
 Hilt
 Coroutines  
