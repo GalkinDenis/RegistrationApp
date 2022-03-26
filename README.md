@@ -1,7 +1,7 @@
 Jetpack navigation  
 MVVM  
 Clean  
-Hilt
+Hilt  
 Coroutines  
 Room  
 Landscape layouts
