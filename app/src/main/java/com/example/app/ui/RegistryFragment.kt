@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.app.R
 import com.example.app.databinding.RegistryFragmentLayoutBinding
 import com.example.app.domain.entities.UserRegistrationRequest
@@ -66,11 +65,7 @@ class RegistryFragment : Fragment() {
                     }
                     password != secondPassword -> showToast(getString(R.string.password_do_not_match))
                     else -> {
-                        progressBar.visibility = View.VISIBLE
-                        emailLabel.visibility = View.GONE
-                        registryButton.visibility = View.GONE
-                        secondPasswordLabel.visibility = View.GONE
-                        passwordLabel.visibility = View.GONE
+                        showProgressBar()
                         viewModel.registrationUser(email, password)
                     }
                 }
@@ -79,21 +74,33 @@ class RegistryFragment : Fragment() {
     }
 
     private fun initObservers() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.registrationRequest().observe(viewLifecycleOwner) { loginResponse ->
-                with(binding) {
-                    progressBar.visibility = View.GONE
-                    emailLabel.visibility = View.VISIBLE
-                    registryButton.visibility = View.VISIBLE
-                    secondPasswordLabel.visibility = View.VISIBLE
-                    passwordLabel.visibility = View.VISIBLE
-                }
-                when (loginResponse) {
-                    is UserRegistrationRequest.Pending -> return@observe
-                    is UserRegistrationRequest.UserSaved -> showToast(getString(R.string.registration_success))
-                    is UserRegistrationRequest.AlreadyExist -> showToast(getString(R.string.user_already_exist))
-                }
+        viewModel.registrationRequest().observe(viewLifecycleOwner) { loginResponse ->
+            hideProgressBar()
+            when (loginResponse) {
+                is UserRegistrationRequest.Pending -> return@observe
+                is UserRegistrationRequest.UserSaved -> showToast(getString(R.string.registration_success))
+                is UserRegistrationRequest.AlreadyExist -> showToast(getString(R.string.user_already_exist))
             }
+        }
+    }
+
+    private fun showProgressBar() {
+        with(binding) {
+            progressBar.visibility = View.VISIBLE
+            emailLabel.visibility = View.GONE
+            registryButton.visibility = View.GONE
+            secondPasswordLabel.visibility = View.GONE
+            passwordLabel.visibility = View.GONE
+        }
+    }
+
+    private fun hideProgressBar() {
+        with(binding) {
+            progressBar.visibility = View.GONE
+            emailLabel.visibility = View.VISIBLE
+            registryButton.visibility = View.VISIBLE
+            secondPasswordLabel.visibility = View.VISIBLE
+            passwordLabel.visibility = View.VISIBLE
         }
     }
 

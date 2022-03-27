@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.app.R
 import com.example.app.databinding.ChangePasswordFragmentLayoutBinding
 import com.example.app.domain.entities.ChangePasswordRequest
@@ -68,12 +67,7 @@ class ChangePasswordFragment : Fragment() {
                     }
                     newPassword != newSecondPassword -> showToast(getString(R.string.password_do_not_match))
                     else -> {
-                        progressBar.visibility = View.VISIBLE
-                        emailLabel.visibility = View.GONE
-                        oldPasswordLabel.visibility = View.GONE
-                        passwordLabel.visibility = View.GONE
-                        secondPasswordLabel.visibility = View.GONE
-                        changePasswordButton.visibility = View.GONE
+                        showProgressBar()
                         viewModel.changePassword(email, oldPassword, newPassword)
                     }
                 }
@@ -82,16 +76,8 @@ class ChangePasswordFragment : Fragment() {
     }
 
     private fun initObservers() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.changePasswordRequest().observe(viewLifecycleOwner) { changePasswordResponse ->
-                with(binding) {
-                    progressBar.visibility = View.GONE
-                    emailLabel.visibility = View.VISIBLE
-                    oldPasswordLabel.visibility = View.VISIBLE
-                    passwordLabel.visibility = View.VISIBLE
-                    secondPasswordLabel.visibility = View.VISIBLE
-                    changePasswordButton.visibility = View.VISIBLE
-                }
+        viewModel.changePasswordRequest().observe(viewLifecycleOwner) { changePasswordResponse ->
+                hideProgressBar()
                 when (changePasswordResponse) {
                     is ChangePasswordRequest.Pending -> return@observe
                     is ChangePasswordRequest.PasswordChanged -> showToast(getString(R.string.password_changed))
@@ -99,6 +85,27 @@ class ChangePasswordFragment : Fragment() {
                     is ChangePasswordRequest.UserNotFound -> showToast(getString(R.string.user_not_found))
                 }
             }
+    }
+
+    private fun showProgressBar() {
+        with(binding) {
+            progressBar.visibility = View.VISIBLE
+            emailLabel.visibility = View.GONE
+            oldPasswordLabel.visibility = View.GONE
+            passwordLabel.visibility = View.GONE
+            secondPasswordLabel.visibility = View.GONE
+            changePasswordButton.visibility = View.GONE
+        }
+    }
+
+    private fun hideProgressBar() {
+        with(binding) {
+            progressBar.visibility = View.GONE
+            emailLabel.visibility = View.VISIBLE
+            oldPasswordLabel.visibility = View.VISIBLE
+            passwordLabel.visibility = View.VISIBLE
+            secondPasswordLabel.visibility = View.VISIBLE
+            changePasswordButton.visibility = View.VISIBLE
         }
     }
 

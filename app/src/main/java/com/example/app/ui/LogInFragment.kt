@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.app.R
 import com.example.app.databinding.LogInFragmentLayoutBinding
@@ -53,7 +52,6 @@ class LogInFragment : Fragment() {
     }
 
     private fun initListeners() {
-
         with(binding) {
             changePassword.setOnClickListener {
                 findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToChangePasswordFragment())
@@ -63,12 +61,7 @@ class LogInFragment : Fragment() {
                 if (email.text.toString().isEmpty() || password.text.toString().isEmpty()) {
                     showToast(getString(R.string.fields_are_not_filled))
                 } else {
-                    progressBar.visibility = View.VISIBLE
-                    enter.visibility = View.GONE
-                    emailLabel.visibility = View.GONE
-                    passwordLabel.visibility = View.GONE
-                    registry.visibility = View.GONE
-                    changePassword.visibility = View.GONE
+                    showProgressBar()
                     viewModel.checkUser(email.text.toString(), password.text.toString())
                 }
             }
@@ -76,38 +69,50 @@ class LogInFragment : Fragment() {
             registry.setOnClickListener {
                 findNavController().navigate(LogInFragmentDirections.actionLogInFragmentToRegistryFragment())
             }
-
         }
     }
 
     private fun initObservers() {
-        with(binding) {
-            lifecycleScope.launchWhenStarted {
-                viewModel.loginRequest().observe(viewLifecycleOwner) { loginResponse ->
-                    when (loginResponse) {
-                        is LogInRequest.Pending -> return@observe
-                        is LogInRequest.UserFound -> {
-                            findNavController().navigate(
-                                LogInFragmentDirections.actionLogInFragmentToAboutFragment(
-                                    loginResponse.email
-                                )
-                            )
-                            with(binding) {
-                                email.setText("")
-                                password.setText("")
-                            }
-                        }
-                        is LogInRequest.IncorrectPassword -> showToast(getString(R.string.incorrect_password))
-                        is LogInRequest.UserNotFound -> showToast(getString(R.string.user_not_found))
+        viewModel.loginRequest().observe(viewLifecycleOwner) { loginResponse ->
+            when (loginResponse) {
+                is LogInRequest.Pending -> return@observe
+                is LogInRequest.UserFound -> {
+                    findNavController().navigate(
+                        LogInFragmentDirections.actionLogInFragmentToAboutFragment(
+                            loginResponse.email
+                        )
+                    )
+                    with(binding) {
+                        email.setText("")
+                        password.setText("")
                     }
-                    progressBar.visibility = View.GONE
-                    emailLabel.visibility = View.VISIBLE
-                    enter.visibility = View.VISIBLE
-                    passwordLabel.visibility = View.VISIBLE
-                    registry.visibility = View.VISIBLE
-                    changePassword.visibility = View.VISIBLE
                 }
+                is LogInRequest.IncorrectPassword -> showToast(getString(R.string.incorrect_password))
+                is LogInRequest.UserNotFound -> showToast(getString(R.string.user_not_found))
             }
+            hideProgressBar()
+        }
+    }
+
+    private fun showProgressBar() {
+        with(binding) {
+            progressBar.visibility = View.VISIBLE
+            enter.visibility = View.GONE
+            emailLabel.visibility = View.GONE
+            passwordLabel.visibility = View.GONE
+            registry.visibility = View.GONE
+            changePassword.visibility = View.GONE
+        }
+    }
+
+    private fun hideProgressBar() {
+        with(binding) {
+            progressBar.visibility = View.GONE
+            emailLabel.visibility = View.VISIBLE
+            enter.visibility = View.VISIBLE
+            passwordLabel.visibility = View.VISIBLE
+            registry.visibility = View.VISIBLE
+            changePassword.visibility = View.VISIBLE
         }
     }
 
